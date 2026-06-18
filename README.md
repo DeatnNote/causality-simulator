@@ -223,20 +223,5 @@ Data subset test:
 - [ ] Reinforcement learning: find the optimal policy given the causal model
 
 ---
-
-## Interview Q&A
-
-**Q: What is the fundamental problem of causal inference?**
-You can never observe both potential outcomes for the same unit simultaneously. If Alice takes the treatment, you observe Y(1) but never Y(0), and vice versa. This is called the Fundamental Problem of Causal Inference (Holland, 1986). We can only estimate average effects by comparing groups — which requires those groups to be comparable (no confounding). Randomized experiments solve this by design. Causal inference methods solve it statistically for observational data.
-
-**Q: What is a confounder vs a mediator vs a collider?**
-A confounder causes both treatment and outcome — you must control for it (e.g. Age causes both Exercise and Blood Pressure). A mediator is on the causal path from treatment to outcome — controlling for it blocks the effect you're measuring (e.g. Brand Awareness mediates Ad Spend → Sales, don't control for it). A collider is caused by both treatment and outcome — controlling for it INTRODUCES bias by opening a backdoor path (Berkson's Paradox). Getting this wrong is the most common mistake in observational studies.
-
-**Q: What is the difference between ATE, ATT, and CATE?**
-ATE (Average Treatment Effect) = E[Y(1) - Y(0)] — average effect if treatment applied to everyone. ATT (Average Treatment Effect on the Treated) = E[Y(1) - Y(0) | T=1] — average effect among those who actually received treatment. CATE (Conditional ATE) = E[Y(1) - Y(0) | X=x] — average effect for a specific subgroup. They differ when treatment effect is heterogeneous and self-selection into treatment correlates with treatment response. Policy questions usually need ATE ("should we expand this program?"). Evaluation questions usually need ATT ("did the program work for participants?").
-
-**Q: How does propensity score matching work and what are its assumptions?**
-The propensity score e(X) = P(T=1|X) is the probability of receiving treatment given observed covariates. Matching pairs each treated unit with a control unit having the same propensity score — creating a pseudo-experiment where treated and control have similar covariate distributions. Assumptions: (1) Unconfoundedness — no unobserved confounders (strong ignorability), (2) Overlap — every unit has a non-zero probability of both treatment and control (positivity), (3) SUTVA — one unit's treatment doesn't affect another's outcome (no interference). The biggest limitation is assumption 1 — it only controls for observed confounders.
-
 **Q: What is Rosenbaum sensitivity analysis and what does a Gamma of 2.0 mean?**
 Rosenbaum bounds quantify how sensitive a causal estimate is to hidden confounders. Gamma represents how much a hidden confounder could change the odds of receiving treatment. Gamma=1.0 means no hidden confounder. Gamma=2.0 means a hidden confounder that doubles the odds of treatment could be present — and the analysis asks: would the result still hold? If the result survives Gamma=3.0, it's robust. If it fails at Gamma=1.3, it's fragile and easily explained by a mild hidden confounder. This is mandatory reporting in credible observational studies.
